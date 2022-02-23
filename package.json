@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "@types/node": "^17.0.20",
+    "csv-parser": "^3.0.0"
+  },
+  "devDependencies": {
+    "typescript": "^4.5.5"
+  }
+}
