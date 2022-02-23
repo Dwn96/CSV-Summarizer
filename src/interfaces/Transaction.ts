@@ -1,7 +1,7 @@
-interface Transaction {
+interface Transaction<T> {
     lender:string
     receiver:string
-    amount:string
+    amount:T
 }
 
 export default Transaction

@@ -2,7 +2,7 @@ import fs from 'fs';
 import csv from 'csv-parser';
 import Transaction from './src/interfaces/Transaction';
 
-const data:Transaction[] = [];
+const data:Transaction<string>[] = [];
 
 const formatAmount = (numberStr:string):number => {
   const number = parseFloat(numberStr);
@@ -12,11 +12,11 @@ const formatAmount = (numberStr:string):number => {
 
 const concatLenderReceiver = (lender:string, receiver:string):string => `${lender}-${receiver}`;
 
-const addToHashmap = (transactions:Transaction[]) => {
+const addToHashmap = (transactions:Transaction<string>[]) => {
   const map = new Map<string, number>();
   transactions.map((transaction) => {
     const uniqueConcat = concatLenderReceiver(transaction.lender, transaction.receiver);
-    const {amount} = transaction
+    const { amount } = transaction;
     if (!map.has(uniqueConcat)) {
       map.set(uniqueConcat, formatAmount(amount));
     } else {
@@ -26,19 +26,19 @@ const addToHashmap = (transactions:Transaction[]) => {
   return map;
 };
 
-const convertMapToJSONObject = (map:Map<string, number>):Transaction[] => {
-  const transactions:Transaction[] = [];
+const convertMapToCSVRows = (map:Map<string, number>):string[] => {
+  const rows:string[] = [];
   map.forEach((v, k) => {
-    const key = k.split('-');
-    const transaction:Transaction = {
-      lender: key[0],
-      receiver: key[1],
-      amount: v.toString(),
-    };
-    transactions.push(transaction);
+    const row = k.split('-').join(',').concat(`,${v.toFixed(2)}`);
+    rows.push(row)
   });
-  console.log(transactions);
-  return transactions;
+  return rows
+};
+
+const writeOutputToFile = (rows:string[]) => {
+  fs.writeFile('output.csv',rows.join('\r\n'),(error)=>{
+    console.log(error);
+  });
 };
 
 fs.createReadStream('input.csv')
@@ -50,8 +50,8 @@ fs.createReadStream('input.csv')
     console.log(data);
 
     const map = addToHashmap(data);
-    console.log(convertMapToJSONObject(map));
-    
+    const rows = convertMapToCSVRows(map)
+    writeOutputToFile(rows)
   });
 
 
