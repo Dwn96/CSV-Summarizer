@@ -16,14 +16,29 @@ const addToHashmap = (transactions:Transaction[]) => {
   const map = new Map<string, number>();
   transactions.map((transaction) => {
     const uniqueConcat = concatLenderReceiver(transaction.lender, transaction.receiver);
-    const amount = formatAmount(transaction.amount);
+    const {amount} = transaction
     if (!map.has(uniqueConcat)) {
-      map.set(uniqueConcat, amount);
+      map.set(uniqueConcat, formatAmount(amount));
     } else {
-      map.set(uniqueConcat, map.get(uniqueConcat)! + amount);
+      map.set(uniqueConcat, map.get(uniqueConcat)! + formatAmount(amount));
     }
   });
-  console.log(map);
+  return map;
+};
+
+const convertMapToJSONObject = (map:Map<string, number>):Transaction[] => {
+  const transactions:Transaction[] = [];
+  map.forEach((v, k) => {
+    const key = k.split('-');
+    const transaction:Transaction = {
+      lender: key[0],
+      receiver: key[1],
+      amount: v.toString(),
+    };
+    transactions.push(transaction);
+  });
+  console.log(transactions);
+  return transactions;
 };
 
 fs.createReadStream('input.csv')
@@ -34,5 +49,9 @@ fs.createReadStream('input.csv')
   .on('end', () => {
     console.log(data);
 
-    addToHashmap(data);
+    const map = addToHashmap(data);
+    console.log(convertMapToJSONObject(map));
+    
   });
+
+
