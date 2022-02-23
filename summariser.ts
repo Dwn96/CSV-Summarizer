@@ -30,28 +30,26 @@ const convertMapToCSVRows = (map:Map<string, number>):string[] => {
   const rows:string[] = [];
   map.forEach((v, k) => {
     const row = k.split('-').join(',').concat(`,${v.toFixed(2)}`);
-    rows.push(row)
+    rows.push(row);
   });
-  return rows
+  return rows;
 };
 
 const writeOutputToFile = (rows:string[]) => {
-  fs.writeFile('output.csv',rows.join('\r\n'),(error)=>{
-    console.log(error);
-  });
+  fs.writeFile('output.csv', rows.join('\r\n'), () => { });
 };
 
 fs.createReadStream('input.csv')
   .pipe(csv(['lender', 'receiver', 'amount']))
+  .on('error', (error) => {
+    console.log('Something went wrong reading/processing the input file', error.message);
+  })
   .on('data', (res) => {
     data.push(res);
   })
   .on('end', () => {
-    console.log(data);
-
     const map = addToHashmap(data);
-    const rows = convertMapToCSVRows(map)
+    const rows = convertMapToCSVRows(map);
     writeOutputToFile(rows)
+    console.log('All done. Ouput can be found inside output.csv');
   });
-
-
