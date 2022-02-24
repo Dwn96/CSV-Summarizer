@@ -32,11 +32,18 @@ const convertMapToCSVRows = (map:Map<string, number>):string[] => {
     const row = k.split('-').join(',').concat(`,${v.toFixed(2)}`);
     rows.push(row);
   });
-  return rows;
+  return rows.sort();
 };
 
-const writeOutputToFile = (rows:string[]) => {
-  fs.writeFile('output.csv', rows.join('\r\n'), () => { });
+const writeOutputToFile = async (rows:string[]) => {
+  fs.writeFile('output.csv', rows.join('\r\n'), (err) => {
+    if (err) {
+      console.log('Something went wrong while writing results to file', err);
+      throw err;
+    }
+    console.log('All done. Here`s your summarised data:', rows);
+    console.log('Your data has also been written to: `./output.csv`');
+  });
 };
 
 fs.createReadStream('input.csv')
@@ -50,6 +57,5 @@ fs.createReadStream('input.csv')
   .on('end', () => {
     const map = addToHashmap(data);
     const rows = convertMapToCSVRows(map);
-    writeOutputToFile(rows)
-    console.log('All done. Ouput can be found inside output.csv');
+    writeOutputToFile(rows);
   });
