@@ -38,7 +38,6 @@ const convertMapToCSVRows = (map:Map<string, number>):string[] => {
 const writeOutputToFile = async (rows:string[]) => {
   fs.writeFile('output.csv', rows.join('\r\n'), (err) => {
     if (err) {
-      console.log('Something went wrong while writing results to file', err);
       throw err;
     }
     console.log('All done. Here`s your summarised data:', rows);
@@ -46,16 +45,27 @@ const writeOutputToFile = async (rows:string[]) => {
   });
 };
 
+const logMetrics = (startTime:number, endTime:number, rows:number) => {
+  const msDifference = endTime - startTime;
+  console.log(`Processed ${rows} rows in ${msDifference} ms`);
+};
+
+const 
 fs.createReadStream('input.csv')
   .pipe(csv(['lender', 'receiver', 'amount']))
   .on('error', (error) => {
     console.log('Something went wrong reading/processing the input file', error.message);
   })
   .on('data', (res) => {
+    console.log('Reading data...');
     data.push(res);
   })
-  .on('end', () => {
+  .on('end', async () => {
+    const startTime = performance.now()
     const map = addToHashmap(data);
     const rows = convertMapToCSVRows(map);
-    writeOutputToFile(rows);
+    await writeOutputToFile(rows).then(() => {
+      const endTime = performance.now();
+      logMetrics(startTime, endTime, rows.length);
+    });
   });
