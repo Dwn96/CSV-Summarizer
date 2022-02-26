@@ -11,7 +11,7 @@ class FileIO {
 
   }
 
-  pipeCSVIntoArray():Promise<Transaction<string>[]> {
+  async pipeCSVIntoArray():Promise<Transaction<string>[]> {
     return new Promise((resolve, reject) => {
       fs.createReadStream('input.csv')
         .pipe(csv(['lender', 'receiver', 'amount']))
