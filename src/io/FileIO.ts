@@ -2,9 +2,7 @@
 /* eslint-disable no-useless-constructor */
 import fs from 'fs';
 import csv from 'csv-parser';
-import EventEmitter from 'events';
 import Transaction from '../interfaces/Transaction';
-import DataProcess from '../utils/DataProcess';
 
 class FileIO {
   constructor(
