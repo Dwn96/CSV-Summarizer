@@ -5,13 +5,8 @@ import csv from 'csv-parser';
 import Transaction from '../interfaces/Transaction';
 
 class FileIO {
-  constructor(
-        public data:Transaction<string>[],
-  ) {
-
-  }
-
   async pipeCSVIntoArray():Promise<Transaction<string>[]> {
+    const data:Transaction<string>[] = [];
     return new Promise((resolve, reject) => {
       fs.createReadStream('input.csv')
         .pipe(csv(['lender', 'receiver', 'amount']))
@@ -20,9 +15,9 @@ class FileIO {
           reject(error);
         })
         .on('data', (res) => {
-          this.data.push(res);
+          data.push(res);
         })
-        .on('end', () => resolve(this.data));
+        .on('end', () => resolve(data));
     });
   }
 
