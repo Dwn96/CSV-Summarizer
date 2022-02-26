@@ -1,6 +1,6 @@
 import Transaction from './interfaces/Transaction';
 import FileIO from './io/FileIO';
-import DataProcess from './utils/DataProcess';
+import DataProcess from './dataprocessor/DataProcess';
 
 const tx:Transaction<string>[] = [];
 const fileIO = new FileIO(tx);
