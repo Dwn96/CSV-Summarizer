@@ -1,3 +1,4 @@
+import FileReadError from '../errors/FileReadError';
 import InvalidDataEncounteredError from '../errors/InvalidDataEncounteredError';
 import FileIO from '../io/FileIO';
 
@@ -23,9 +24,9 @@ class DataProcess {
     try {
       const transactions = await this.fileIO.pipeCSVIntoArray();
       const map = new Map<string, number>();
-      transactions.map((transaction) => {
+      transactions.map((transaction, index) => {
         const uniqueConcat = DataProcess
-          .concatLenderReceiver(transaction.lender, transaction.receiver);
+          .concatLenderReceiver(transaction.lender, transaction.receiver, index);
         const { amount } = transaction;
         if (!map.has(uniqueConcat)) {
           map.set(uniqueConcat, DataProcess.formatAmount(amount));
@@ -36,9 +37,10 @@ class DataProcess {
       return map;
     } catch (error) {
       if (error instanceof InvalidDataEncounteredError) {
-        console.log();
-
-        throw new Error((error as Error).message);
+        console.log('\x1b[36m%s\x1b[0m','Something went wrong while computing the data summary:', (error as Error).message);
+      }
+      if (error instanceof FileReadError) {
+        console.log('Something went wrong while reading the input csv:', (error as Error).message);
       }
     }
   }
@@ -52,7 +54,11 @@ class DataProcess {
     await this.fileIO.writeProcessedDataToCSV(rows.sort());
   }
 
-  private static concatLenderReceiver(lender:string, receiver:string):string {
+  private static concatLenderReceiver(lender:string, receiver:string, index?:number):string {
+    if (!lender || !receiver) {
+      throw new InvalidDataEncounteredError(`Encountered invalid data while perfoming a concatenation.
+      Data could not be correctly processed due to an unmatched lender/receipient combination at row ${index! + 1}`);
+    }
     return `${lender}-${receiver}`;
   }
 }

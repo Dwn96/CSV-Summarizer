@@ -1,7 +1,11 @@
 import assert from 'assert';
 import { describe, it } from 'mocha';
+import Sinon from 'sinon';
+import { anything, verify } from 'ts-mockito';
 import DataProcess from '../../src/dataprocessor/DataProcess';
 import InvalidDataEncounteredError from '../../src/errors/InvalidDataEncounteredError';
+import FileIO from '../../src/io/FileIO';
+import FileReadError from '../../src/errors/FileReadError';
 
 describe('DataProcess', () => {
   describe('formatAmount', () => {
@@ -17,6 +21,17 @@ describe('DataProcess', () => {
   });
 
   describe('computeDataSummary', () => {
-    
-  })
+    const fakeFileIO = Sinon.createStubInstance(FileIO);
+    const sut = new DataProcess(fakeFileIO);
+
+    it('Should read csv file contents into array before processing is started', () => {
+      sut.computeDataSummary();
+      verify(fakeFileIO.pipeCSVIntoArray.calledOnce);
+    });
+    it('Should return a FileReadError if pipeCSVIntoArray fails', () => {
+      fakeFileIO.pipeCSVIntoArray.rejects();
+      sut.computeDataSummary();
+      assert.throws(() => { sut.computeDataSummary(); }, Error);
+    });
+  });
 });

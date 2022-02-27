@@ -3,6 +3,8 @@
 import fs from 'fs';
 import csv from 'csv-parser';
 import Transaction from '../interfaces/Transaction';
+import FileReadError from '../errors/FileReadError';
+import FileWriteError from '../errors/FileWriteError';
 
 class FileIO {
   async pipeCSVIntoArray():Promise<Transaction<string>[]> {
@@ -12,7 +14,8 @@ class FileIO {
         .pipe(csv(['lender', 'receiver', 'amount']))
         .on('error', (error) => {
           console.log(error);
-          reject(Error(`Something went wrong reading that file: ${error}`));
+          reject(error);
+          throw new FileReadError((error as Error).message);
         })
         .on('data', (res) => {
           data.push(res);
@@ -22,9 +25,9 @@ class FileIO {
   }
 
   async writeProcessedDataToCSV(rows:string[]) {
-    fs.writeFile('output.csv', rows.join('\r\n'), (err) => {
-      if (err) {
-        throw err;
+    fs.writeFile('output.csv', rows.join('\r\n'), (error) => {
+      if (error) {
+        throw new FileWriteError((error as Error).message);
       }
       console.log('All done. Here`s your summarised data:', rows);
       console.log('Your data has also been written to: `./output.csv`');
