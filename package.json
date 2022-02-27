@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "ts-node npx ts-node summariser.ts"
+    "start": " npx ts-node ./src/index.ts"
   },
   "dependencies": {
     "@types/node": "^17.0.20",
