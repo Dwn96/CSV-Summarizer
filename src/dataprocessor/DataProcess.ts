@@ -1,32 +1,46 @@
+import InvalidDataEncounteredError from '../errors/InvalidDataEncounteredError';
 import FileIO from '../io/FileIO';
 
 class DataProcess {
-
+  // eslint-disable-next-line no-useless-constructor
   constructor(
-        private fileIO:FileIO
+        // eslint-disable-next-line no-unused-vars
+        private fileIO:FileIO,
+  // eslint-disable-next-line no-empty-function
   ) {}
 
-
-  private static formatAmount(numberStr:string):number {
+  static formatAmount(numberStr:string):number {
     const number = parseFloat(numberStr);
     const formatted = +number.toFixed(2);
+    if (Number.isNaN(formatted)) {
+      throw new InvalidDataEncounteredError(`Encountered invalid data while perfoming summary.
+         Value ${numberStr} could not be correctly processed`);
+    }
     return formatted;
   }
 
   async computeDataSummary() {
-    const transactions = await this.fileIO.pipeCSVIntoArray();
-    const map = new Map<string, number>();
-    transactions.map((transaction) => {
-      const uniqueConcat = DataProcess
-        .concatLenderReceiver(transaction.lender, transaction.receiver);
-      const { amount } = transaction;
-      if (!map.has(uniqueConcat)) {
-        map.set(uniqueConcat, DataProcess.formatAmount(amount));
-      } else {
-        map.set(uniqueConcat, map.get(uniqueConcat)! + DataProcess.formatAmount(amount));
+    try {
+      const transactions = await this.fileIO.pipeCSVIntoArray();
+      const map = new Map<string, number>();
+      transactions.map((transaction) => {
+        const uniqueConcat = DataProcess
+          .concatLenderReceiver(transaction.lender, transaction.receiver);
+        const { amount } = transaction;
+        if (!map.has(uniqueConcat)) {
+          map.set(uniqueConcat, DataProcess.formatAmount(amount));
+        } else {
+          map.set(uniqueConcat, map.get(uniqueConcat)! + DataProcess.formatAmount(amount));
+        }
+      });
+      return map;
+    } catch (error) {
+      if (error instanceof InvalidDataEncounteredError) {
+        console.log();
+
+        throw new Error((error as Error).message);
       }
-    });
-    return map;
+    }
   }
 
   async convertMapToStringsAndWriteToCSV(map:Map<string, number>):Promise<void> {

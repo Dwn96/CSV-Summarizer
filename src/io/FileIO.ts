@@ -12,7 +12,7 @@ class FileIO {
         .pipe(csv(['lender', 'receiver', 'amount']))
         .on('error', (error) => {
           console.log(error);
-          reject(error);
+          reject(Error(`Something went wrong reading that file: ${error}`));
         })
         .on('data', (res) => {
           data.push(res);

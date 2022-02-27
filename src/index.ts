@@ -6,5 +6,5 @@ const fileIO = new FileIO();
 const dataprocess = new DataProcess(fileIO);
 
 dataprocess.computeDataSummary().then((map) => {
-  dataprocess.convertMapToStringsAndWriteToCSV(map);
+  dataprocess.convertMapToStringsAndWriteToCSV(map!);
 });
