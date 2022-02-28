@@ -54,7 +54,7 @@ class DataProcess {
     await this.fileIO.writeProcessedDataToCSV(rows.sort());
   }
 
-  private static concatLenderReceiver(lender:string, receiver:string, index?:number):string {
+  static concatLenderReceiver(lender:string, receiver:string, index?:number):string {
     if (!lender || !receiver) {
       throw new InvalidDataEncounteredError(`Encountered invalid data while perfoming a concatenation.
       Data could not be correctly processed due to an unmatched lender/receipient combination at row ${index! + 1}`);

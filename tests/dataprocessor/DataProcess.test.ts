@@ -34,4 +34,17 @@ describe('DataProcess', () => {
       assert.throws(() => { sut.computeDataSummary(); }, Error);
     });
   });
+
+  describe('concatLenderReceiver', () => {
+    it('should form a hyphen separated concatenation of a passed arguments', () => {
+      const expected = 'Carl-Alex'
+      const actual = DataProcess.concatLenderReceiver('Carl', 'Alex');
+      assert.equal(actual, expected);
+    })
+
+    it('should throw an InvalidDataEncounteredError error when invalid / missing data is passed in', () => {
+      assert.throws(() => { DataProcess.concatLenderReceiver('abc', ''); }, InvalidDataEncounteredError);
+    });
+
+  });
 });
