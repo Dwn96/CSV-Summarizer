@@ -24,7 +24,7 @@ describe('DataProcess', () => {
     const fakeFileIO = Sinon.createStubInstance(FileIO);
     const sut = new DataProcess(fakeFileIO);
 
-    it('Should read csv file contents into array before processing is started', () => {
+    it('Should read csv file contents into array', () => {
       sut.computeDataSummary();
       verify(fakeFileIO.pipeCSVIntoArray.calledOnce);
     });
@@ -47,4 +47,19 @@ describe('DataProcess', () => {
     });
 
   });
+
+  describe('convertMapToStringsAndWriteToCSV', () => {
+    const fakeFileIO = Sinon.createStubInstance(FileIO);
+    const sut = new DataProcess(fakeFileIO);
+    it('should always be called on array parameters ',() => {
+      sut.convertMapToStringsAndWriteToCSV(anything())
+      verify(fakeFileIO.writeProcessedDataToCSV.calledOnceWith([]))
+    })
+
+    it('should write output to a csv', () => {
+      sut.convertMapToStringsAndWriteToCSV(anything())
+      verify(fakeFileIO.writeProcessedDataToCSV.called)
+    })
+
+  })
 });
