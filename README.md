@@ -19,7 +19,7 @@ This application takes in a csv file as an input from stdin and returns a summar
 
 4. Step 3 will generate a file named **summarize-csv** which should be made executable via
 
-        chmod +x index
+        chmod +x summarize-csv
         
 
 # Using the application
