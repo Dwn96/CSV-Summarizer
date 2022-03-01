@@ -5,7 +5,7 @@ class InputValidator {
     if (param.length < 3) {
       return new Validity(false, 'Input file is possibly missing');
     }
-    
+
     const inputFile = param[2];
     const extension = this.getFileExtension(inputFile);
 
