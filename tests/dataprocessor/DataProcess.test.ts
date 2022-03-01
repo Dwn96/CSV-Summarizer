@@ -25,13 +25,13 @@ describe('DataProcess', () => {
     const sut = new DataProcess(fakeFileIO);
 
     it('Should read csv file contents into array', () => {
-      sut.computeDataSummary();
+      sut.computeDataSummary(anything());
       verify(fakeFileIO.pipeCSVIntoArray.calledOnce);
     });
     it('Should return a FileReadError if pipeCSVIntoArray fails', () => {
       fakeFileIO.pipeCSVIntoArray.throws(InvalidDataEncounteredError);
-      sut.computeDataSummary();
-      assert.throws(() => { sut.computeDataSummary(); }, Error);
+      sut.computeDataSummary(anything());
+      assert.throws(() => { sut.computeDataSummary(anything()); }, Error);
     });
   });
 
