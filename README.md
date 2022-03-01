@@ -29,3 +29,23 @@ This application takes in a csv file as an input from stdin and returns a summar
   To process a csv file run (without the curly braces):
   
         ./summarize-csv {filename.csv}
+        
+# Errors
+
+   ### 1. FileReadError
+  
+  This error is thrown when the initial read from stdin fails for whatsoever reason. Typically due a missing file. 
+  
+  #### Troubleshooting:
+    i. Check if path has been correctly passed if using absolute path to file.
+    ii. Check application has directory read permissions.
+
+  
+  2. ### FileWriteError
+
+  This error is thrown when the initial read from stdin fails for whatsoever reason. Typically due a directory permissions. 
+
+  #### Troubleshooting:
+    i. Check application has directory write permissions.
+
+3. ## InvalidDataEncounteredError
