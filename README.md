@@ -41,14 +41,14 @@ This application takes in a csv file as an input from stdin and returns a summar
     ii. Check application has directory read permissions.
 
   
-  2. ### FileWriteError
+  ## 2.  FileWriteError
 
   This error is thrown when the initial read from stdin fails for whatsoever reason. Typically due a directory permissions. 
 
   #### Troubleshooting:
     i. Check application has directory write permissions.
 
-3. ## InvalidDataEncounteredError
+## 3. InvalidDataEncounteredError
   
   This error is thrown when the application encounters bad / inadequate data during the initial parsing. This could be as a result of mismatched
   lender - receiver combinations or missing data in the amount section.
