@@ -29,7 +29,7 @@ describe('DataProcess', () => {
       verify(fakeFileIO.pipeCSVIntoArray.calledOnce);
     });
     it('Should return a FileReadError if pipeCSVIntoArray fails', () => {
-      fakeFileIO.pipeCSVIntoArray.rejects();
+      fakeFileIO.pipeCSVIntoArray.throws(InvalidDataEncounteredError);
       sut.computeDataSummary();
       assert.throws(() => { sut.computeDataSummary(); }, Error);
     });

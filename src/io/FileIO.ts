@@ -19,7 +19,6 @@ class FileIO {
         })
         .on('data', (res) => {
           data.push(res);
-          console.log(data);
           
         })
         .on('end', () => resolve(data));

@@ -20,9 +20,9 @@ class DataProcess {
     return formatted;
   }
 
-  async computeDataSummary() {
+  async computeDataSummary(path:string) {
     try {
-      const transactions = await this.fileIO.pipeCSVIntoArray();
+      const transactions = await this.fileIO.pipeCSVIntoArray(path);
       const map = new Map<string, number>();
       transactions.map((transaction, index) => {
         const uniqueConcat = DataProcess
