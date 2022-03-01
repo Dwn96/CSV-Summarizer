@@ -17,7 +17,15 @@ This application takes in a csv file as an input from stdin and returns a summar
 
         npm run pkg
 
-4. Step 3 will generate a file named **index** which should be made executable via
+4. Step 3 will generate a file named **summarize-csv** which should be made executable via
 
         chmod +x index
         
+
+# Using the application
+  
+  This application only accepts csv inputs from stdin. Any other file type will throw an error.
+  
+  To process a csv file run (without the curly braces):
+  
+        ./summarize-csv {filename.csv}
