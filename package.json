@@ -3,7 +3,8 @@
     "start": "node ./src/index.js ",
     "start:dev": " npx ts-node ./src/index.ts",
     "test": "mocha -r ts-node/register 'tests/**/*.ts'",
-    "build": "rimraf ./build && tsc"
+    "build": "rimraf ./build && tsc",
+    "pkg": "pkg ./src/index.js --targets node10-linux-x64 --output summarize-csv"
   },
   "dependencies": {
     "@types/node": "^17.0.20",

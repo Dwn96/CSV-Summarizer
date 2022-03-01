@@ -30,7 +30,8 @@ class FileIO {
       if (error) {
         throw new FileWriteError((error as Error).message);
       }
-      console.log('All done. Here`s your summarised data:', rows);
+      console.log('All done. Here`s your summarised data')
+      console.log(rows)
       console.log('Your data has also been written to: `./output.csv`');
     });
   }
