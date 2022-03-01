@@ -49,3 +49,13 @@ This application takes in a csv file as an input from stdin and returns a summar
     i. Check application has directory write permissions.
 
 3. ## InvalidDataEncounteredError
+  
+  This error is thrown when the application encounters bad / inadequate data during the initial parsing. This could be as a result of mismatched
+  lender - receiver combinations or missing data in the amount section.
+
+  #### Troubleshooting:
+    i. Check the input csv has complete data in all columns
+    ii. Check input csv has correctly typed data where necessary
+
+
+  
