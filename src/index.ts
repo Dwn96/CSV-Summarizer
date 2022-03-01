@@ -3,8 +3,8 @@ import FileIO from './io/FileIO';
 import DataProcess from './dataprocessor/DataProcess';
 
 const fileIO = new FileIO();
-const dataprocess = new DataProcess(fileIO);
 
-dataprocess.computeDataSummary().then((map) => {
-  dataprocess.convertMapToStringsAndWriteToCSV(map!);
-});
+
+fileIO.pipeCSVIntoArray(process.argv[2])
+
+

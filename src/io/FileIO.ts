@@ -7,10 +7,10 @@ import FileReadError from '../errors/FileReadError';
 import FileWriteError from '../errors/FileWriteError';
 
 class FileIO {
-  async pipeCSVIntoArray():Promise<Transaction<string>[]> {
+  async pipeCSVIntoArray(path:string):Promise<Transaction<string>[]> {
     const data:Transaction<string>[] = [];
     return new Promise((resolve, reject) => {
-      fs.createReadStream('input.csv')
+      fs.createReadStream(path)
         .pipe(csv(['lender', 'receiver', 'amount']))
         .on('error', (error) => {
           console.log(error);
@@ -19,6 +19,8 @@ class FileIO {
         })
         .on('data', (res) => {
           data.push(res);
+          console.log(data);
+          
         })
         .on('end', () => resolve(data));
     });
