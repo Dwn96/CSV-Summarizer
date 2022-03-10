@@ -53,7 +53,7 @@ Will return:
   
         ./summarize-csv {filename.csv}
         
-# Errors
+# Troubleshooting Errors
 
    ### 1. FileReadError
   
