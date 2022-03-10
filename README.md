@@ -25,7 +25,7 @@ Will return:
     Carl,Alex,60.88
     Carl,Beatrice,25.30
 
-# Building and packaging the application
+# Getting started
 
   
 1. Install node modules:
