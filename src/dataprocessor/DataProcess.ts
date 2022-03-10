@@ -3,11 +3,8 @@ import InvalidDataEncounteredError from '../errors/InvalidDataEncounteredError';
 import FileIO from '../io/FileIO';
 
 class DataProcess {
-  // eslint-disable-next-line no-useless-constructor
   constructor(
-        // eslint-disable-next-line no-unused-vars
         private fileIO:FileIO,
-  // eslint-disable-next-line no-empty-function
   ) {}
 
   static formatAmount(numberStr:string):number {
