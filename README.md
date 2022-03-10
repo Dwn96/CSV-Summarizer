@@ -1,6 +1,29 @@
 # CSV Summarizer
 This application takes in a csv file as an input from stdin and returns a summarised csv both in stdout and as a second csv.
 
+#Examples
+
+A CSV with values :
+
+    Alex,Beatrice,101.32
+    Beatrice,Alex,1.20
+    Carl,Alex,45
+    Carl,Beatrice,12.50
+    Alex,Beatrice,19.22
+    Beatrice,Carl,67.90
+    Carl,Beatrice,12.80
+    Carl,Alex,15.88
+    Beatrice,Carl,71.42
+    Beatrice,Alex,4.54
+    Beatrice,Carl,28.76
+
+Will return:
+
+    Alex,Beatrice,120.54
+    Beatrice,Alex,5.74
+    Beatrice,Carl,168.08
+    Carl,Alex,60.88
+    Carl,Beatrice,25.30
 
 # Building and packaging the application
 
