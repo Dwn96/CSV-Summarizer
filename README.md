@@ -1,4 +1,4 @@
-# Medic Take Home
+# CSV Summarizer
 This application takes in a csv file as an input from stdin and returns a summarised csv both in stdout and as a second csv.
 
 
